@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.troila.cloud.profanity.config.ProfanityFilterConfiguration,\
+com.troila.cloud.profanity.config.ProfanityAutoConfiguration
