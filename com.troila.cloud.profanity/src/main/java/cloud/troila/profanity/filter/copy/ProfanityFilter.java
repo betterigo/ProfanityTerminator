@@ -1,4 +1,4 @@
-package com.troila.cloud.profanity.filter;
+package cloud.troila.profanity.filter.copy;
 
 /**
  * 敏感词过滤器
@@ -6,5 +6,5 @@ package com.troila.cloud.profanity.filter;
  *
  */
 public interface ProfanityFilter {
-	public <T> T filter(T t);
+	public <T> T filter(String uri,String key,T t);
 }

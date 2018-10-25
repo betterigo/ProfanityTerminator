@@ -1,4 +1,4 @@
-package com.troila.cloud.profanity;
+package cloud.troila.profanity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.troila.cloud.profanity;
+package cloud.troila.profanity;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -9,13 +9,15 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.troila.cloud.profanity.filter.ProfanityFilter;
+
+import cloud.troila.profanity.filter.ProfanityFilter;
 
 public class ProfanityProcesserFilter implements Filter{
 
@@ -37,23 +39,22 @@ public class ProfanityProcesserFilter implements Filter{
 			chain.doFilter(request, wrapper);
 			String result = wrapper.getResponseData("UTF-8");
 			JsonNode root = mapper.readTree(result);
-			selectJsonNodeFields(root);
+			String uri = ((HttpServletRequest)request).getRequestURI();
+			selectJsonNodeFields(uri,root);
 			response.getOutputStream().write(root.toString().getBytes());
-			String parameter = mapper.writeValueAsString(request.getParameterMap());
-			System.out.println(parameter);
-			System.out.println(root);
+			System.out.println(response.getContentType());
 	}
 
 	public void init(FilterConfig config) throws ServletException {
 		System.out.println("初始化ProfanityProcesserFilter...");
 	}
 
-	private void selectJsonNodeFields(JsonNode jsonNode) {
+	private void selectJsonNodeFields(String uri,JsonNode jsonNode) {
 		System.out.println(jsonNode.getNodeType());
 		if(jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
 			Iterator<JsonNode> iterator = jsonNode.elements();
 			while(iterator.hasNext()) {					
-				selectJsonNodeFields(iterator.next());
+				selectJsonNodeFields(uri,iterator.next());
 			}
 		}
 		if(jsonNode.getNodeType().equals(JsonNodeType.OBJECT)) {			
@@ -63,17 +64,20 @@ public class ProfanityProcesserFilter implements Filter{
 				JsonNode node = jsonNode.get(field);
 				if(node.getNodeType().equals(JsonNodeType.STRING)) {
 					ObjectNode target = (ObjectNode) jsonNode;
-					target.put(field, profanityfilter.filter(node.asText()));
+					String result = null;
+					if((result = profanityfilter.filter(uri,field,node.asText()))!=null) {						
+						target.put(field, result);
+					}
 					System.out.println(field+"字段是string类型");
 				}
 				if(node.getNodeType().equals(JsonNodeType.ARRAY)) {
 					Iterator<JsonNode> iterator = node.elements();
 					while(iterator.hasNext()) {					
-						selectJsonNodeFields(iterator.next());
+						selectJsonNodeFields(uri,iterator.next());
 					}
 				}
 				if(node.getNodeType().equals(JsonNodeType.OBJECT)) {
-					selectJsonNodeFields(node);
+					selectJsonNodeFields(uri,node);
 				}
 			}
 		}
