@@ -37,12 +37,13 @@ public class ProfanityProcesserFilter implements Filter{
 			throws IOException, ServletException {
 			ResponseWrapper wrapper = new ResponseWrapper((HttpServletResponse)response);
 			chain.doFilter(request, wrapper);
-			String result = wrapper.getResponseData("UTF-8");
-			JsonNode root = mapper.readTree(result);
-			String uri = ((HttpServletRequest)request).getRequestURI();
-			selectJsonNodeFields(uri,root);
-			response.getOutputStream().write(root.toString().getBytes());
-			System.out.println(response.getContentType());
+			if(response.getContentType().contains("application/json")) {				
+				String result = wrapper.getResponseData("UTF-8");
+				JsonNode root = mapper.readTree(result);
+				String uri = ((HttpServletRequest)request).getRequestURI();
+				selectJsonNodeFields(uri,root);
+				response.getOutputStream().write(root.toString().getBytes());
+			}
 	}
 
 	public void init(FilterConfig config) throws ServletException {
@@ -50,7 +51,6 @@ public class ProfanityProcesserFilter implements Filter{
 	}
 
 	private void selectJsonNodeFields(String uri,JsonNode jsonNode) {
-		System.out.println(jsonNode.getNodeType());
 		if(jsonNode.getNodeType().equals(JsonNodeType.ARRAY)) {
 			Iterator<JsonNode> iterator = jsonNode.elements();
 			while(iterator.hasNext()) {					
@@ -68,7 +68,6 @@ public class ProfanityProcesserFilter implements Filter{
 					if((result = profanityfilter.filter(uri,field,node.asText()))!=null) {						
 						target.put(field, result);
 					}
-					System.out.println(field+"字段是string类型");
 				}
 				if(node.getNodeType().equals(JsonNodeType.ARRAY)) {
 					Iterator<JsonNode> iterator = node.elements();

@@ -12,14 +12,13 @@ public class DefaultProfanityFilter implements ProfanityFilter {
 		this.profanityPolicy = profanityPolicy;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <T> T filter(String uri,String key,T t) {
+	public String filter(String uri,String key,String t) {
 		if(t instanceof String) {
-			Object result = profanityPolicy.match(uri, key, (String) t);
+			String result = profanityPolicy.match(uri, key, (String) t);
 			if(result == null) {
 				return null;
 			}else {
-				return (T) result;
+				return result;
 			}
 		}
 		return t;

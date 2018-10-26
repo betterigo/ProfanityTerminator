@@ -6,5 +6,5 @@ package cloud.troila.profanity.filter;
  *
  */
 public interface ProfanityFilter {
-	public <T> T filter(String uri,String key,T t);
+	public String filter(String uri,String key,String t);
 }

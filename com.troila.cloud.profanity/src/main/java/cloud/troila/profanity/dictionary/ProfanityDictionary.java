@@ -3,12 +3,16 @@ package cloud.troila.profanity.dictionary;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cloud.troila.profanity.PatternUtil;
 
 public class ProfanityDictionary {
 	
 	private List<String> profanityWords = null;
+	
+	private List<Pattern> patterns = null;
 	
 	private String urlPattern;
 
@@ -20,8 +24,11 @@ public class ProfanityDictionary {
 		super();
 		this.urlPattern = urlPattern;
 		this.profanityWords = new ArrayList<String>();
+		this.patterns = new ArrayList<>();
 		for(String pw:profanityWords) {
 			this.profanityWords.add(pw);
+			Pattern p = Pattern.compile(pw);
+			this.patterns.add(p);
 		}
 	}
 	
@@ -30,8 +37,11 @@ public class ProfanityDictionary {
 		this.urlPattern = urlPattern;
 		this.replaceWord = replaceWord;
 		this.profanityWords = new ArrayList<String>();
+		this.patterns = new ArrayList<>();
 		for(String pw:profanityWords) {
 			this.profanityWords.add(pw);
+			Pattern p = Pattern.compile(pw);
+			this.patterns.add(p);
 		}
 	}
 
@@ -64,10 +74,12 @@ public class ProfanityDictionary {
 	 */
 	public String selectAndReplace(String uri,String key,String value) {
 		if(PatternUtil.match(urlPattern, uri) && !ignoreFields.contains(key)) {
-			Optional<String> result = profanityWords.stream().filter(word->{
-				return value.matches(word);
-			}).map(word->{
-				return value.replaceAll(word, this.replaceWord);
+			Optional<String> result = patterns.stream().map(p->{
+				Matcher m = p.matcher(value);
+				return m.find()?m:null;
+			}).filter(m->m!=null)
+					.map(m->{
+				return m.replaceAll(replaceWord);
 			}).findFirst();
 			return result.orElse(null);
 		}
