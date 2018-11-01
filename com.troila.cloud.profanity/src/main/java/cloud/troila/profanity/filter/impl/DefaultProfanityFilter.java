@@ -12,6 +12,11 @@ public class DefaultProfanityFilter implements ProfanityFilter {
 		this.profanityPolicy = profanityPolicy;
 	}
 
+	@Override
+	public ProfanityPolicy getPolicy() {
+		return profanityPolicy;
+	}
+	
 	public String filter(String uri,String key,String t) {
 		if(t instanceof String) {
 			String result = profanityPolicy.match(uri, key, (String) t);

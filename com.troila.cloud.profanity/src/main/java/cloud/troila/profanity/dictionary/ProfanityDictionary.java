@@ -1,14 +1,15 @@
 package cloud.troila.profanity.dictionary;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import cloud.troila.profanity.PatternUtil;
 
-public class ProfanityDictionary {
+public class ProfanityDictionary implements WordDictionary {
 	
 	private List<String> profanityWords = null;
 	
@@ -17,6 +18,8 @@ public class ProfanityDictionary {
 	private String urlPattern;
 
 	private String replaceWord;
+	
+	private int order;
 	
 	private List<String> ignoreFields = null;
 	
@@ -27,6 +30,9 @@ public class ProfanityDictionary {
 		this.patterns = new ArrayList<>();
 		for(String pw:profanityWords) {
 			this.profanityWords.add(pw);
+		}
+		this.profanityWords = this.profanityWords.stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList()); //默认排序
+		for(String pw : this.profanityWords) {
 			Pattern p = Pattern.compile(pw);
 			this.patterns.add(p);
 		}
@@ -40,6 +46,9 @@ public class ProfanityDictionary {
 		this.patterns = new ArrayList<>();
 		for(String pw:profanityWords) {
 			this.profanityWords.add(pw);
+		}
+		this.profanityWords = this.profanityWords.stream().distinct().sorted(Comparator.reverseOrder()).collect(Collectors.toList()); //默认排序
+		for(String pw : this.profanityWords) {
 			Pattern p = Pattern.compile(pw);
 			this.patterns.add(p);
 		}
@@ -73,16 +82,27 @@ public class ProfanityDictionary {
 	 * @return
 	 */
 	public String selectAndReplace(String uri,String key,String value) {
+		boolean flag = false;
 		if(PatternUtil.match(urlPattern, uri) && !ignoreFields.contains(key)) {
-			Optional<String> result = patterns.stream().map(p->{
+			for(Pattern p:patterns) {
 				Matcher m = p.matcher(value);
-				return m.find()?m:null;
-			}).filter(m->m!=null)
-					.map(m->{
-				return m.replaceAll(replaceWord);
-			}).findFirst();
-			return result.orElse(null);
+				if(m.find()) {
+					if(!flag) {
+						flag = true;
+					}
+					value = m.replaceAll(replaceWord);
+				}
+			}
 		}
-		return null;
+		return flag?value:null;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	@Override
+	public int getOrder() {
+		return this.order;
 	}
 }

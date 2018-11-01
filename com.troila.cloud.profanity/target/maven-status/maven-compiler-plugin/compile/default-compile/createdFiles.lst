@@ -1,11 +1,4 @@
 cloud\troila\profanity\PatternUtil.class
-cloud\troila\profanity\App.class
-cloud\troila\profanity\config\ProfanityProcesserFilterConfiguration.class
-cloud\troila\profanity\ResponseWrapper$WapperedOutputStream.class
-cloud\troila\profanity\config\ProfanityConfigurationAutoConfiguration.class
-cloud\troila\profanity\config\ProfanityConfigurationAutoConfiguration$1.class
-cloud\troila\profanity\filter\copy\ProfanityFilter.class
-cloud\troila\profanity\policy\copy\ProfanityFilterConfiguration.class
 cloud\troila\profanity\ResponseWrapper.class
 cloud\troila\profanity\filter\ProfanityFilter.class
 cloud\troila\profanity\dictionary\ProfanityDictionary.class
@@ -15,6 +8,3 @@ cloud\troila\profanity\policy\ProfanityPolicy.class
 cloud\troila\profanity\policy\ProfanityFilterConfiguration.class
 cloud\troila\profanity\config\ProfanityAutoConfiguration.class
 cloud\troila\profanity\filter\impl\DefaultProfanityFilter.class
-cloud\troila\profanity\dictionary\copy\ProfanityDictionary.class
-cloud\troila\profanity\policy\copy\ProfanityPolicy.class
-cloud\troila\profanity\config\ProfanityPolicyAutoConfiguration.class

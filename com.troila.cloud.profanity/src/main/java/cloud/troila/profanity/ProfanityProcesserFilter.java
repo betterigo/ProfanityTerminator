@@ -33,17 +33,32 @@ public class ProfanityProcesserFilter implements Filter{
 	public void destroy() {
 	}
 
+	/*
+	 * ResponseWrapper 会代理response方法，对于需要直接输出到页面的内容，例如下载的数据，不要进行包装，不然会把数据先读到wrapper里面，造成页面响应速度很慢
+	 * (non-Javadoc)
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		//是否在屏蔽列表里面
+		String uri = ((HttpServletRequest)request).getRequestURI();
+		if(!matchUri(uri)) {			
 			ResponseWrapper wrapper = new ResponseWrapper((HttpServletResponse)response);
 			chain.doFilter(request, wrapper);
-			if(response.getContentType().contains("application/json")) {				
-				String result = wrapper.getResponseData("UTF-8");
+			if(response.getContentType() != null && response.getContentType().contains("application/json")) {				
+				String result = new String(wrapper.getBytes(),"utf-8");
 				JsonNode root = mapper.readTree(result);
-				String uri = ((HttpServletRequest)request).getRequestURI();
 				selectJsonNodeFields(uri,root);
 				response.getOutputStream().write(root.toString().getBytes());
+			}else {
+				byte[] b = wrapper.getBytes();
+				response.setContentLength(b.length);
+				response.getOutputStream().write(b);
 			}
+		}else {
+			chain.doFilter(request, response);
+		}
+				
 	}
 
 	public void init(FilterConfig config) throws ServletException {
@@ -80,5 +95,14 @@ public class ProfanityProcesserFilter implements Filter{
 				}
 			}
 		}
+	}
+	
+	private boolean matchUri(String uri) {
+		for(String uriPattern : profanityfilter.getPolicy().getConfig().getIngoreUriPatterns()) {
+			if(PatternUtil.match(uriPattern, uri)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

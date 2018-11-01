@@ -12,84 +12,57 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 public class ResponseWrapper extends HttpServletResponseWrapper {
 
-	private ByteArrayOutputStream buffer = null;
 
-	private ServletOutputStream out = null;
+    private ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    private PrintWriter printWriter;
 
-	private PrintWriter writer = null;
-
-	public ResponseWrapper(HttpServletResponse response) {
-		super(response);
-		 buffer = new ByteArrayOutputStream();
-		 out = new WapperedOutputStream(buffer);
-	     try {
-			writer = new PrintWriter(new OutputStreamWriter(buffer, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
-
-	
-	
-	@Override
-	public void flushBuffer() throws IOException {
-		if(out!=null) {
-			out.flush();
-			return;
-		}
-		if(writer!=null) {
-			writer.flush();
-		}
-	}
-
-
-
-	@Override
-	public ServletOutputStream getOutputStream() throws IOException {
-		return out;
-	}
-
-
-
-	@Override
-	public PrintWriter getWriter() throws IOException {
-		return writer;
-	}
-
-
-
-	@Override
-	public void reset() {
-		buffer.reset();
-	}
-
-
-	public String getResponseData(String charset) throws IOException {
-        flushBuffer();//将out、writer中的数据强制输出到WapperedResponse的buffer里面，否则取不到数据
-        byte[] bytes = buffer.toByteArray();   
-        try {
-            return new String(bytes, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return "";
-        } 
- 
+    public ResponseWrapper(HttpServletResponse response) {
+        super(response);
+    }
+    
+    @Override
+    public ServletOutputStream getOutputStream() throws IOException {
+        return new MyServletOutputStream(bytes); 
+    }
+  
+    @Override
+    public PrintWriter getWriter() throws IOException {
+        try{
+        	printWriter = new PrintWriter(new OutputStreamWriter(bytes, "utf-8"));
+        } catch(UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return printWriter;
     }
 
-	private class WapperedOutputStream extends ServletOutputStream{
-		private ByteArrayOutputStream bos = null;
-		
-		
-		public WapperedOutputStream(ByteArrayOutputStream bos) {
-			super();
-			this.bos = bos;
-		}
+    public byte[] getBytes() {
+        if(printWriter != null) {
+        	printWriter.close();
+        } 
 
+        if(bytes != null) {
+            try {
+                bytes.flush();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-		@Override
-		public void write(int b) throws IOException {
-			bos.write(b);
-		}
-		
-	}
+        return bytes.toByteArray();
+    }
+
+    class MyServletOutputStream extends ServletOutputStream {
+        private ByteArrayOutputStream os ;
+
+        public MyServletOutputStream(ByteArrayOutputStream ostream) {
+            this.os = ostream;
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            os.write(b);
+        }
+
+    }
 	
 }
