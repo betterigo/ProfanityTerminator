@@ -60,7 +60,7 @@ public class DefaultProfanityPolicy implements ProfanityPolicy{
 			}
 			this.dicrionaries.add(pd);
 			//根据order排序
-			this.dicrionaries = this.dicrionaries.stream().sorted(Comparator.comparing(WordDictionary::getOrder).reversed()).collect(Collectors.toList());
+			this.dicrionaries = this.dicrionaries.stream().sorted(Comparator.comparing(WordDictionary::getOrder)).collect(Collectors.toList());
 		}
 	}
 	
