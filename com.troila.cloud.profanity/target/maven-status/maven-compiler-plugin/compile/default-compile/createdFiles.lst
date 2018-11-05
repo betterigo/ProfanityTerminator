@@ -1,4 +1,5 @@
 cloud\troila\profanity\PatternUtil.class
+META-INF\spring-configuration-metadata.json
 cloud\troila\profanity\ResponseWrapper.class
 cloud\troila\profanity\filter\ProfanityFilter.class
 cloud\troila\profanity\dictionary\ProfanityDictionary.class

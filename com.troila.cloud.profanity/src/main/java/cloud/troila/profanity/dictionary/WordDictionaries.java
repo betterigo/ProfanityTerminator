@@ -10,9 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import cloud.troila.profanity.dictionary.node.WordNode;
 
 public class WordDictionaries {
+	
+
+	private static final Logger logger = LoggerFactory.getLogger(WordDictionaries.class);
 	/**
 	 * 返回一个默认的Xss攻击词典，该词典采用正则表达式匹配，在大文件中效率不好
 	 * @return
@@ -50,7 +56,7 @@ public class WordDictionaries {
 		Map<Integer, WordNode> profanities = new HashMap<>();
 		List<Integer> skipChar = new ArrayList<>();
 		List<Integer> fChar = new ArrayList<>();
-		System.out.println("开始加载敏感词库...");
+		logger.info("加载敏感词库...开始");
 		if(profanityWordInput == null) {
 			br = new BufferedReader(new InputStreamReader(WordDictionaries.class.getClassLoader().getResourceAsStream("profanitywords.dic")));
 		}else {
@@ -80,7 +86,9 @@ public class WordDictionaries {
 				e.printStackTrace();
 			}
 		}
+		logger.info("加载敏感词库...完成");
 		//加载忽略字符集
+		logger.info("加载敏感词库忽略字符集...开始");
 		try {
 			String sw ="";
 			while((sw = sbr.readLine())!=null) {
@@ -98,6 +106,7 @@ public class WordDictionaries {
 				e.printStackTrace();
 			}
 		}
+		logger.info("加载敏感词库忽略字符集...完成");
 		DfaKVDictionary dictionary = new DfaKVDictionary();
 		for(String w : words) {
 			char[] chs = w.toCharArray();
@@ -129,7 +138,7 @@ public class WordDictionaries {
 		dictionary.setSkipwords(skipChar);
 		dictionary.setProfanities(profanities);
 		dictionary.setOrder(1);
-		System.out.println("加载敏感词库完成！");
+		logger.info("配置敏感词库完成！");
 		return dictionary;
 	}
 }

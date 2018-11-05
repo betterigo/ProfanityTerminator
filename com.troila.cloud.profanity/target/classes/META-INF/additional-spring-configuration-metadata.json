@@ -1,0 +1,29 @@
+{"properties": [
+  {
+    "name": "profanity.policy.dictionary.default.xss",
+    "type": "java.lang.Boolean",
+    "description": "是否启用默认xss攻击词汇过滤功能",
+    "defaultValue": true
+  },
+  {
+    "name": "profanity.policy.dictionary.default.sensitive",
+    "type": "java.lang.Boolean",
+    "description": "是否默认敏感词过滤功能",
+    "defaultValue": true
+  },
+  {
+    "name": "profanity.filter",
+    "type": "java.lang.Boolean",
+    "description": "是否启用profanity模块"
+  },
+  {
+    "name": "profanity.policy.ignore-urls",
+    "type": "java.lang.String",
+    "description": "需要屏蔽的url路径 用';'分割"
+  },
+  {
+    "name": "profanity.policy.ignore-fields",
+    "type": "java.lang.String",
+    "description": "需要屏蔽的字段名称，用';'分割"
+  }
+]}

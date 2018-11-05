@@ -17,6 +17,16 @@ public class DefaultProfanityConfiguration implements ProfanityFilterConfigurati
 	
 	protected String replaceWord = "******";
 	
+	
+	public void setIngoreUrlPatterns(List<String> ingoreUrlPatterns) {
+		this.ingoreUrlPatterns = ingoreUrlPatterns;
+	}
+
+	public void setCommonIngoreFields(List<String> commonIngoreFields) {
+		this.commonIngoreFields = commonIngoreFields;
+	}
+
+
 	@Override
 	public String getReplaceWord() {
 		return replaceWord;

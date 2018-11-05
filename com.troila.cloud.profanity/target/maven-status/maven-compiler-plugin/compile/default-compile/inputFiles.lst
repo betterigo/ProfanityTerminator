@@ -13,7 +13,9 @@ E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\t
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\dictionary\WordDictionary.java
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\dictionary\RegxEntry.java
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\ResponseWrapper.java
+E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\config\properties\DefaultDictionariesProperties.java
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\ProfanityProcesserFilter.java
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\dictionary\ProfanityDictionary.java
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\filter\ProfanityFilter.java
+E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\config\properties\IgnoreSettings.java
 E:\filework\ProfanityTerminator\com.troila.cloud.profanity\src\main\java\cloud\troila\profanity\policy\ProfanityPolicy.java
