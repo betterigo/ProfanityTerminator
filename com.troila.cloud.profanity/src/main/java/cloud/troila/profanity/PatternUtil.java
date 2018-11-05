@@ -12,7 +12,7 @@ public class PatternUtil {
 	}
 	
 	/**
-	 * 全角编程半角字符
+	 * 全角转半角字符
 	 * @param fullWidthStr
 	 * @return
 	 */
