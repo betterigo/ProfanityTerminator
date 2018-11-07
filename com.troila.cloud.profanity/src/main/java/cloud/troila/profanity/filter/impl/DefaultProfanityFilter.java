@@ -19,7 +19,7 @@ public class DefaultProfanityFilter implements ProfanityFilter {
 	
 	public String filter(String uri,String key,String t) {
 		if(t instanceof String) {
-			String result = profanityPolicy.match(uri, key, (String) t);
+			String result = profanityPolicy.match(uri, key, t);
 			if(result == null) {
 				return null;
 			}else {

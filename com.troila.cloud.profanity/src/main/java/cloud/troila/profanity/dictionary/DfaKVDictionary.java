@@ -13,8 +13,18 @@ public class DfaKVDictionary implements WordDictionary{
 	
 	private List<Integer> skipwords = new ArrayList<>();
 	
+	private List<String> ignoreFields = new ArrayList<>();
+	
 	private int order;
 	
+	public List<String> getIgnoreFields() {
+		return ignoreFields;
+	}
+
+	public void setIgnoreFields(List<String> ignoreFields) {
+		this.ignoreFields = ignoreFields;
+	}
+
 	public void setProfanities(Map<Integer, WordNode> profanities) {
 		this.profanities = profanities;
 	}
@@ -25,6 +35,9 @@ public class DfaKVDictionary implements WordDictionary{
 
 	@Override
 	public String selectAndReplace(String uri, String key, String value) {
+		if(ignoreFields.contains(key)) {//忽略屏蔽词
+			return null;
+		}
 		value = PatternUtil.fullWidth2halfWidth(value);
 		char[] chs = value.toCharArray();
 		int length = chs.length;

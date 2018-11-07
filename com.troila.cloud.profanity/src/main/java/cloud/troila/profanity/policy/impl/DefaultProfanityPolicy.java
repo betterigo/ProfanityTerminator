@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import cloud.troila.profanity.dictionary.DfaKVDictionary;
 import cloud.troila.profanity.dictionary.ProfanityDictionary;
 import cloud.troila.profanity.dictionary.ProfanityKVDictionary;
 import cloud.troila.profanity.dictionary.WordDictionary;
@@ -57,6 +58,9 @@ public class DefaultProfanityPolicy implements ProfanityPolicy{
 				}else {
 					((ProfanityKVDictionary) pd).getIgnoreFields().addAll(config.getCommonIngoreFields());
 				}
+			}
+			if(pd instanceof DfaKVDictionary) {
+				((DfaKVDictionary) pd).setIgnoreFields(config.getCommonIngoreFields());
 			}
 			this.dicrionaries.add(pd);
 			//根据order排序
