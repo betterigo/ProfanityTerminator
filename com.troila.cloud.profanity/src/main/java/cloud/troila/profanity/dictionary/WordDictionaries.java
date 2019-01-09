@@ -29,14 +29,14 @@ public class WordDictionaries {
 		RegxEntry re2 = new RegxEntry("eval\\((.*?)\\)","",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		RegxEntry re3 = new RegxEntry("expression\\((.*?)\\)","",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		RegxEntry re4 = new RegxEntry("(javascript:|vbscript:|view-source:)*","",Pattern.CASE_INSENSITIVE);
-		RegxEntry re5 = new RegxEntry("<(\"[^\"]*\"|\'[^\']*\'|[^\'\">])*>","",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+//		RegxEntry re5 = new RegxEntry("<(\"[^\"]*\"|\'[^\']*\'|[^\'\">])*>","",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		RegxEntry re6 = new RegxEntry("(window\\.location|window\\.|\\.location|document\\.cookie|document\\.|alert\\(.*?\\)|window\\.open\\()*","",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-		RegxEntry re7 = new RegxEntry("<+\\s*\\w*\\s*(oncontrolselect|oncopy|oncut|ondataavailable|ondatasetchanged|ondatasetcomplete|ondblclick|ondeactivate|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onerror=|onerroupdate|onfilterchange|onfinish|onfocus|onfocusin|onfocusout|onhelp|onkeydown|onkeypress|onkeyup|onlayoutcomplete|onload|onlosecapture|onmousedown|onmouseenter|onmouseleave|onmousemove|onmousout|onmouseover|onmouseup|onmousewheel|onmove|onmoveend|onmovestart|onabort|onactivate|onafterprint|onafterupdate|onbefore|onbeforeactivate|onbeforecopy|onbeforecut|onbeforedeactivate|onbeforeeditocus|onbeforepaste|onbeforeprint|onbeforeunload|onbeforeupdate|onblur|onbounce|oncellchange|onchange|onclick|oncontextmenu|onpaste|onpropertychange|onreadystatechange|onreset|onresize|onresizend|onresizestart|onrowenter|onrowexit|onrowsdelete|onrowsinserted|onscroll|onselect|onselectionchange|onselectstart|onstart|onstop|onsubmit|onunload)+\\s*=+","",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+		RegxEntry re7 = new RegxEntry("(oncontrolselect|oncopy|oncut|ondataavailable|ondatasetchanged|ondatasetcomplete|ondblclick|ondeactivate|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onerror|onerroupdate|onfilterchange|onfinish|onfocus|onfocusin|onfocusout|onhelp|onkeydown|onkeypress|onkeyup|onlayoutcomplete|onload|onlosecapture|onmousedown|onmouseenter|onmouseleave|onmousemove|onmousout|onmouseover|onmouseup|onmousewheel|onmove|onmoveend|onmovestart|onabort|onactivate|onafterprint|onafterupdate|onbefore|onbeforeactivate|onbeforecopy|onbeforecut|onbeforedeactivate|onbeforeeditocus|onbeforepaste|onbeforeprint|onbeforeunload|onbeforeupdate|onblur|onbounce|oncellchange|onchange|onclick|oncontextmenu|onpaste|onpropertychange|onreadystatechange|onreset|onresize|onresizend|onresizestart|onrowenter|onrowexit|onrowsdelete|onrowsinserted|onscroll|onselect|onselectionchange|onselectstart|onstart|onstop|onsubmit|onunload)+\\s*=\\\"?[^\\\"\\s]*\\\"?","$1_",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 		profanities.add(re1);
 		profanities.add(re2);
 		profanities.add(re3);
 		profanities.add(re4);
-		profanities.add(re5);
+//		profanities.add(re5);
 		profanities.add(re6);
 		profanities.add(re7);
 		ProfanityKVDictionary dictionary = new ProfanityKVDictionary(profanities, "", "/**",new ArrayList<>());
